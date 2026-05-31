@@ -1,0 +1,46 @@
+[
+  {
+    "producto_id": "pan_masa_madre",
+    "ingredientes": [
+      { "id": "harina_trigo",  "cantidad": 0.50 },
+      { "id": "masa_madre",    "cantidad": 0.10 },
+      { "id": "sal",           "cantidad": 0.01 }
+    ]
+  },
+  {
+    "producto_id": "baguette",
+    "ingredientes": [
+      { "id": "harina_fuerza", "cantidad": 0.25 },
+      { "id": "levadura",      "cantidad": 0.005 },
+      { "id": "sal",           "cantidad": 0.005 }
+    ]
+  },
+  {
+    "producto_id": "croissant",
+    "ingredientes": [
+      { "id": "harina_fuerza", "cantidad": 0.12 },
+      { "id": "mantequilla",   "cantidad": 0.06 },
+      { "id": "azucar",        "cantidad": 0.02 },
+      { "id": "levadura",      "cantidad": 0.003 },
+      { "id": "huevos",        "cantidad": 0.50 }
+    ]
+  },
+  {
+    "producto_id": "pan_sin_gluten",
+    "ingredientes": [
+      { "id": "harina_sin_gluten", "cantidad": 0.45 },
+      { "id": "sal",               "cantidad": 0.01 },
+      { "id": "levadura",          "cantidad": 0.005 }
+    ]
+  },
+  {
+    "producto_id": "napolitana",
+    "ingredientes": [
+      { "id": "harina_fuerza", "cantidad": 0.10 },
+      { "id": "mantequilla",   "cantidad": 0.04 },
+      { "id": "chocolate",     "cantidad": 0.03 },
+      { "id": "azucar",        "cantidad": 0.02 },
+      { "id":": huevos",       "cantidad": 0.50 }
+    ]
+  }
+]

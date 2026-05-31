@@ -1,0 +1,37 @@
+[
+  { "fecha": "2026-05-26", "dia_semana": "lunes",    "producto_id": "pan_masa_madre", "cantidad": 42 },
+  { "fecha": "2026-05-26", "dia_semana": "lunes",    "producto_id": "baguette",       "cantidad": 38 },
+  { "fecha": "2026-05-26", "dia_semana": "lunes",    "producto_id": "croissant",      "cantidad": 24 },
+  { "fecha": "2026-05-26", "dia_semana": "lunes",    "producto_id": "napolitana",     "cantidad": 18 },
+  { "fecha": "2026-05-26", "dia_semana": "lunes",    "producto_id": "pan_sin_gluten", "cantidad": 6  },
+
+  { "fecha": "2026-05-27", "dia_semana": "martes",   "producto_id": "pan_masa_madre", "cantidad": 38 },
+  { "fecha": "2026-05-27", "dia_semana": "martes",   "producto_id": "baguette",       "cantidad": 35 },
+  { "fecha": "2026-05-27", "dia_semana": "martes",   "producto_id": "croissant",      "cantidad": 20 },
+  { "fecha": "2026-05-27", "dia_semana": "martes",   "producto_id": "napolitana",     "cantidad": 15 },
+  { "fecha": "2026-05-27", "dia_semana": "martes",   "producto_id": "pan_sin_gluten", "cantidad": 5  },
+
+  { "fecha": "2026-05-28", "dia_semana": "miercoles","producto_id": "pan_masa_madre", "cantidad": 40 },
+  { "fecha": "2026-05-28", "dia_semana": "miercoles","producto_id": "baguette",       "cantidad": 36 },
+  { "fecha": "2026-05-28", "dia_semana": "miercoles","producto_id": "croissant",      "cantidad": 22 },
+  { "fecha": "2026-05-28", "dia_semana": "miercoles","producto_id": "napolitana",     "cantidad": 16 },
+  { "fecha": "2026-05-28", "dia_semana": "miercoles","producto_id": "pan_sin_gluten", "cantidad": 7  },
+
+  { "fecha": "2026-05-29", "dia_semana": "jueves",   "producto_id": "pan_masa_madre", "cantidad": 44 },
+  { "fecha": "2026-05-29", "dia_semana": "jueves",   "producto_id": "baguette",       "cantidad": 40 },
+  { "fecha": "2026-05-29", "dia_semana": "jueves",   "producto_id": "croissant",      "cantidad": 26 },
+  { "fecha": "2026-05-29", "dia_semana": "jueves",   "producto_id": "napolitana",     "cantidad": 20 },
+  { "fecha": "2026-05-29", "dia_semana": "jueves",   "producto_id": "pan_sin_gluten", "cantidad": 8  },
+
+  { "fecha": "2026-05-30", "dia_semana": "viernes",  "producto_id": "pan_masa_madre", "cantidad": 58 },
+  { "fecha": "2026-05-30", "dia_semana": "viernes",  "producto_id": "baguette",       "cantidad": 52 },
+  { "fecha": "2026-05-30", "dia_semana": "viernes",  "producto_id": "croissant",      "cantidad": 35 },
+  { "fecha": "2026-05-30", "dia_semana": "viernes",  "producto_id": "napolitana",     "cantidad": 28 },
+  { "fecha": "2026-05-30", "dia_semana": "viernes",  "producto_id": "pan_sin_gluten", "cantidad": 10 },
+
+  { "fecha": "2026-05-31", "dia_semana": "sabado",   "producto_id": "pan_masa_madre", "cantidad": 72 },
+  { "fecha": "2026-05-31", "dia_semana": "sabado",   "producto_id": "baguette",       "cantidad": 65 },
+  { "fecha": "2026-05-31", "dia_semana": "sabado",   "producto_id": "croissant",      "cantidad": 48 },
+  { "fecha": "2026-05-31", "dia_semana": "sabado",   "producto_id": "napolitana",     "cantidad": 36 },
+  { "fecha": "2026-05-31", "dia_semana": "sabado",   "producto_id": "pan_sin_gluten", "cantidad": 12 }
+]
