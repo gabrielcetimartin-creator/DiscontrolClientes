@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Panadería — Artesanal desde 1985</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0d0b08;
+  --surface:  rgba(255,255,255,0.04);
+  --border:   rgba(255,255,255,0.08);
+  --text:     #f0ebe3;
+  --muted:    rgba(240,235,227,0.55);
+  --subtle:   rgba(240,235,227,0.25);
+  --gold:     #d4a853;
+  --gold-dim: rgba(212,168,83,0.12);
+  --gold-border: rgba(212,168,83,0.25);
+  --warm:     #c97941;
+  --cream:    #f5edd8;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── FONDO ── */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 800px 600px at -5% 20%,  rgba(212,168,83,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 500px at 105% 80%, rgba(201,121,65,0.07) 0%, transparent 70%);
+}
+body::after {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0; opacity:0.4;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+a { color: var(--gold); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; font-size: 20px !important; vertical-align: middle; }
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(13,11,8,0.92); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 40px; height: 60px;
+}
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px; font-weight: 700;
+  color: var(--text); letter-spacing: 0.02em;
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display: flex; align-items: center; gap: 32px; }
+.nav-links a { font-size: 13px; font-weight: 500; color: var(--muted); transition: color .15s; }
+.nav-links a:hover { color: var(--text); }
+.nav-cta {
+  background: var(--gold); color: #1a0f00;
+  border: none; padding: 9px 20px;
+  font-size: 13px; font-weight: 700;
+  font-family: 'Space Grotesk', sans-serif;
+  letter-spacing: .03em; transition: opacity .15s;
+}
+.nav-cta:hover { opacity: .88; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 120px 24px 80px;
+  position: relative; z-index: 1;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold); background: var(--gold-dim); border: 1px solid var(--gold-border);
+  padding: 5px 14px; margin-bottom: 28px;
+}
+.hero-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(42px, 7vw, 80px);
+  font-weight: 700; line-height: 1.1;
+  margin-bottom: 24px;
+  background: linear-gradient(135deg, #f0ebe3 0%, #d4a853 50%, #c97941 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero-sub {
+  font-size: 18px; color: var(--muted); max-width: 520px; margin: 0 auto 40px;
+  line-height: 1.7;
+}
+.hero-btns { display: flex; align-items: center; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--gold); color: #1a0f00;
+  border: none; padding: 13px 28px;
+  font-size: 14px; font-weight: 700; font-family: 'Space Grotesk', sans-serif;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: opacity .15s, transform .15s;
+}
+.btn-primary:hover { opacity: .88; transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent; color: var(--text);
+  border: 1px solid var(--border); padding: 13px 28px;
+  font-size: 14px; font-weight: 600; font-family: 'Space Grotesk', sans-serif;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: border-color .15s, background .15s;
+}
+.btn-secondary:hover { border-color: var(--gold); background: var(--gold-dim); }
+
+.hero-stats {
+  display: flex; align-items: center; justify-content: center; gap: 48px;
+  margin-top: 64px; padding-top: 40px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px; font-weight: 700; color: var(--gold);
+}
+.hero-stat-lbl { font-size: 12px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .06em; }
+
+/* ── SECCIONES ── */
+section { position: relative; z-index: 1; }
+.section-wrap { max-width: 1100px; margin: 0 auto; padding: 80px 24px; }
+.section-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 12px; display: block;
+}
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 44px); font-weight: 700;
+  line-height: 1.2; margin-bottom: 16px;
+}
+.section-sub { font-size: 16px; color: var(--muted); max-width: 560px; line-height: 1.7; margin-bottom: 48px; }
+
+/* ── PRODUCTOS ── */
+#productos { background: rgba(255,255,255,0.015); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.productos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--border); }
+.producto-card {
+  background: var(--bg); padding: 28px 24px;
+  transition: background .15s;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.producto-card:hover { background: rgba(212,168,83,0.04); }
+.producto-emoji { font-size: 40px; margin-bottom: 4px; display: block; }
+.producto-nombre {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 17px; font-weight: 700;
+}
+.producto-desc { font-size: 13px; color: var(--muted); line-height: 1.6; flex: 1; }
+.producto-precio {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px; font-weight: 700; color: var(--gold);
+}
+.producto-precio span { font-size: 13px; color: var(--muted); font-weight: 400; }
+.producto-tag {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; padding: 3px 8px;
+  background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border);
+}
+
+/* ── CÓMO PEDIR ── */
+.pasos-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.paso-card {
+  background: var(--surface); border: 1px solid var(--border);
+  padding: 28px 24px; position: relative;
+  transition: border-color .15s;
+}
+.paso-card:hover { border-color: var(--gold-border); }
+.paso-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 48px; font-weight: 700; color: rgba(212,168,83,0.15);
+  position: absolute; top: 16px; right: 20px; line-height: 1;
+}
+.paso-icon {
+  width: 44px; height: 44px; background: var(--gold-dim); border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+  font-size: 20px;
+}
+.paso-titulo { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.paso-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── PEDIDO ONLINE ── */
+#pedido { background: rgba(212,168,83,0.03); border-top: 1px solid var(--gold-border); border-bottom: 1px solid var(--gold-border); }
+.pedido-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.pedido-form { display: flex; flex-direction: column; gap: 14px; }
+.field-label { font-size: 11px; font-weight: 700; color: var(--muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: .06em; font-family: 'Space Grotesk', sans-serif; }
+.field-input {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: var(--text); font-size: 14px; padding: 10px 14px; outline: none;
+  font-family: inherit; transition: border-color .15s;
+}
+.field-input:focus { border-color: var(--gold); }
+.field-input::placeholder { color: var(--subtle); }
+.field-select {
+  width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  color: var(--text); font-size: 14px; padding: 10px 14px; outline: none;
+  font-family: inherit; appearance: none; transition: border-color .15s;
+}
+.field-select:focus { border-color: var(--gold); }
+.field-select option { background: #1a1410; }
+.horarios-list { display: flex; flex-direction: column; gap: 10px; }
+.horario-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.horario-row:last-child { border-bottom: none; }
+.horario-dia { font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+.horario-hora { color: var(--muted); font-size: 13px; }
+.horario-cerrado { color: var(--warm); font-size: 13px; }
+
+/* ── NOSOTROS ── */
+.nosotros-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+.nosotros-features { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
+.nosotros-feat {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 16px; background: var(--surface); border: 1px solid var(--border);
+  transition: border-color .15s;
+}
+.nosotros-feat:hover { border-color: var(--gold-border); }
+.nosotros-feat-icon {
+  width: 38px; height: 38px; background: var(--gold-dim); border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 18px;
+}
+.nosotros-feat-title { font-weight: 600; margin-bottom: 4px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; }
+.nosotros-feat-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.nosotros-visual {
+  background: var(--surface); border: 1px solid var(--border);
+  height: 440px; display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.nosotros-visual-placeholder { text-align: center; }
+.nosotros-visual-emoji { font-size: 80px; display: block; margin-bottom: 16px; opacity: .6; }
+.nosotros-visual-text { font-size: 12px; color: var(--muted); font-style: italic; }
+
+/* ── CONTACTO ── */
+#contacto { background: rgba(255,255,255,0.015); border-top: 1px solid var(--border); }
+.contacto-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); margin-bottom: 40px; }
+.contacto-card { background: var(--bg); padding: 28px 24px; }
+.contacto-card-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.contacto-card-title { font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 700; margin-bottom: 8px; }
+.contacto-card-val { font-size: 15px; color: var(--muted); line-height: 1.6; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 1;
+  flex-wrap: wrap; gap: 16px;
+}
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 700; }
+.footer-logo span { color: var(--gold); }
+.footer-links { display: flex; gap: 24px; }
+.footer-links a { font-size: 13px; color: var(--muted); transition: color .15s; }
+.footer-links a:hover { color: var(--text); }
+.footer-copy { font-size: 12px; color: var(--subtle); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  nav { padding: 0 20px; }
+  .nav-links { display: none; }
+  .pasos-grid { grid-template-columns: 1fr; }
+  .pedido-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .nosotros-wrap { grid-template-columns: 1fr; }
+  .nosotros-visual { height: 260px; }
+  .contacto-grid { grid-template-columns: 1fr; }
+  footer { flex-direction: column; align-items: flex-start; padding: 24px 20px; }
+  .hero-stats { gap: 32px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">La <span>Tahona</span></div>
+  <div class="nav-links">
+    <a href="#productos">Productos</a>
+    <a href="#como-pedir">Cómo pedir</a>
+    <a href="#pedido">Pedido online</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <button class="nav-cta" onclick="document.getElementById('pedido').scrollIntoView({behavior:'smooth'})">
+    Hacer pedido
+  </button>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div>
+    <div class="hero-tag">
+      <span class="hero-dot"></span>
+      Pan artesanal · Horneado cada mañana
+    </div>
+    <h1>El sabor de siempre,<br/>hecho con tiempo</h1>
+    <p class="hero-sub">
+      Masa madre, harinas de molino y recetas de generaciones.
+      Sin prisas, sin conservantes, sin compromiso.
+    </p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('productos').scrollIntoView({behavior:'smooth'})">
+        <span class="material-symbols-outlined">storefront</span>Ver productos
+      </button>
+      <button class="btn-secondary" onclick="document.getElementById('pedido').scrollIntoView({behavior:'smooth'})">
+        <span class="material-symbols-outlined">shopping_bag</span>Hacer pedido
+      </button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">38</div>
+        <div class="hero-stat-lbl">Años horneando</div>
+      </div>
+      <div style="width:1px;height:48px;background:var(--border)"></div>
+      <div>
+        <div class="hero-stat-num">+40</div>
+        <div class="hero-stat-lbl">Variedades de pan</div>
+      </div>
+      <div style="width:1px;height:48px;background:var(--border)"></div>
+      <div>
+        <div class="hero-stat-num">100%</div>
+        <div class="hero-stat-lbl">Masa madre natural</div>
+      </div>
+      <div style="width:1px;height:48px;background:var(--border)"></div>
+      <div>
+        <div class="hero-stat-num">4:00</div>
+        <div class="hero-stat-lbl">Primera hornada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRODUCTOS ── -->
+<section id="productos">
+  <div class="section-wrap">
+    <span class="section-tag">Nuestra selección</span>
+    <h2 class="section-title">Lo que sale del horno cada día</h2>
+    <p class="section-sub">Todo elaborado en obrador propio con ingredientes seleccionados. Sin aditivos, sin conservantes.</p>
+    <div class="productos-grid">
+
+      <div class="producto-card">
+        <span class="producto-emoji">🍞</span>
+        <div>
+          <span class="producto-tag">Más vendido</span>
+          <div class="producto-nombre" style="margin-top:8px">Pan de masa madre</div>
+        </div>
+        <div class="producto-desc">Fermentación lenta de 24h. Corteza crujiente, miga alveolada. La base de nuestra panadería.</div>
+        <div class="producto-precio">3,20 € <span>/ unidad</span></div>
+      </div>
+
+      <div class="producto-card">
+        <span class="producto-emoji">🥖</span>
+        <div>
+          <div class="producto-nombre">Baguette francesa</div>
+        </div>
+        <div class="producto-desc">Masa de fermentación controlada, horneada dos veces al día. Crujiente por fuera, esponjosa por dentro.</div>
+        <div class="producto-precio">1,40 € <span>/ unidad</span></div>
+      </div>
+
+      <div class="producto-card">
+        <span class="producto-emoji">🥐</span>
+        <div>
+          <span class="producto-tag">Bollería</span>
+          <div class="producto-nombre" style="margin-top:8px">Croissant artesano</div>
+        </div>
+        <div class="producto-desc">Mantequilla francesa AOP, 27 capas de hojaldrado. Elaborado desde las 3 de la madrugada.</div>
+        <div class="producto-precio">2,10 € <span>/ unidad</span></div>
+      </div>
+
+      <div class="producto-card">
+        <span class="producto-emoji">🎂</span>
+        <div>
+          <span class="producto-tag">Encargo</span>
+          <div class="producto-nombre" style="margin-top:8px">Tartas personalizadas</div>
+        </div>
+        <div class="producto-desc">Diseñadas a medida para celebraciones. Bizcochos húmedos, cremas artesanas, decoración única.</div>
+        <div class="producto-precio">Desde 28 € <span>/ encargo</span></div>
+      </div>
+
+      <div class="producto-card">
+        <span class="producto-emoji">🍰</span>
+        <div>
+          <div class="producto-nombre">Pastelería del día</div>
+        </div>
+        <div class="producto-desc">Milhojas, napolitanas, palmeras, berlinesas. Cambia según temporada y lo que manda el obrador.</div>
+        <div class="producto-precio">1,80 – 3,50 €</div>
+      </div>
+
+      <div class="producto-card">
+        <span class="producto-emoji">🌾</span>
+        <div>
+          <span class="producto-tag">Sin gluten</span>
+          <div class="producto-nombre" style="margin-top:8px">Pan sin gluten</div>
+        </div>
+        <div class="producto-desc">Obrador separado, sin trazas. Mezcla de harinas de arroz, tapioca y trigo sarraceno.</div>
+        <div class="producto-precio">4,50 € <span>/ unidad</span></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CÓMO PEDIR ── -->
+<section id="como-pedir">
+  <div class="section-wrap">
+    <span class="section-tag">Sin colas, sin esperas</span>
+    <h2 class="section-title">Pide online, recoge a tu hora</h2>
+    <p class="section-sub">Reserva tu pan con antelación y lo tenemos listo cuando llegues. Sin esperar, sin quedarte sin.</p>
+    <div class="pasos-grid">
+      <div class="paso-card">
+        <div class="paso-num">01</div>
+        <div class="paso-icon">🛒</div>
+        <div class="paso-titulo">Elige tus productos</div>
+        <div class="paso-desc">Selecciona lo que quieres del catálogo. Pan, bollería, pastelería o encargos especiales.</div>
+      </div>
+      <div class="paso-card">
+        <div class="paso-num">02</div>
+        <div class="paso-icon">📅</div>
+        <div class="paso-titulo">Elige el día y hora</div>
+        <div class="paso-desc">Indica cuándo quieres recogerlo. Disponible desde las 7:30h con el pan recién salido del horno.</div>
+      </div>
+      <div class="paso-card">
+        <div class="paso-num">03</div>
+        <div class="paso-icon">🎁</div>
+        <div class="paso-titulo">Recoge sin esperar</div>
+        <div class="paso-desc">Tu pedido estará preparado y esperándote. Sin colas, sin quedarte sin tu pan favorito.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PEDIDO ONLINE ── -->
+<section id="pedido">
+  <div class="section-wrap">
+    <div class="pedido-wrap">
+      <div>
+        <span class="section-tag">Pedido online</span>
+        <h2 class="section-title">Reserva tu pedido</h2>
+        <p class="section-sub">Rellena el formulario y te confirmamos por WhatsApp en menos de 2 horas.</p>
+        <div class="pedido-form">
+          <div>
+            <label class="field-label">Nombre</label>
+            <input class="field-input" type="text" placeholder="Tu nombre"/>
+          </div>
+          <div>
+            <label class="field-label">Teléfono / WhatsApp</label>
+            <input class="field-input" type="tel" placeholder="+34 600 000 000"/>
+          </div>
+          <div>
+            <label class="field-label">Producto</label>
+            <select class="field-select">
+              <option value="">Selecciona un producto...</option>
+              <option>Pan de masa madre</option>
+              <option>Baguette francesa</option>
+              <option>Croissant artesano</option>
+              <option>Tarta personalizada (encargo)</option>
+              <option>Pastelería del día</option>
+              <option>Pan sin gluten</option>
+              <option>Otro / varios productos</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label">Cantidad y detalles</label>
+            <input class="field-input" type="text" placeholder="Ej: 2 panes de masa madre, 6 croissants..."/>
+          </div>
+          <div>
+            <label class="field-label">Día de recogida</label>
+            <input class="field-input" type="date"/>
+          </div>
+          <button class="btn-primary" style="margin-top:8px;justify-content:center">
+            <span class="material-symbols-outlined">send</span>Enviar pedido
+          </button>
+          <p style="font-size:12px;color:var(--muted);line-height:1.6">
+            Te confirmaremos el pedido por WhatsApp. Pago en tienda al recoger.
+          </p>
+        </div>
+      </div>
+      <div>
+        <span class="section-tag" style="margin-bottom:20px;display:block">Horario de la tienda</span>
+        <div class="horarios-list">
+          <div class="horario-row"><span class="horario-dia">Lunes</span><span class="horario-hora">7:30 – 14:00 · 17:00 – 20:00</span></div>
+          <div class="horario-row"><span class="horario-dia">Martes</span><span class="horario-hora">7:30 – 14:00 · 17:00 – 20:00</span></div>
+          <div class="horario-row"><span class="horario-dia">Miércoles</span><span class="horario-hora">7:30 – 14:00 · 17:00 – 20:00</span></div>
+          <div class="horario-row"><span class="horario-dia">Jueves</span><span class="horario-hora">7:30 – 14:00 · 17:00 – 20:00</span></div>
+          <div class="horario-row"><span class="horario-dia">Viernes</span><span class="horario-hora">7:30 – 14:00 · 17:00 – 20:00</span></div>
+          <div class="horario-row"><span class="horario-dia">Sábado</span><span class="horario-hora">8:00 – 14:30</span></div>
+          <div class="horario-row"><span class="horario-dia">Domingo</span><span class="horario-cerrado">Cerrado</span></div>
+        </div>
+        <div style="margin-top:28px;padding:18px;background:var(--gold-dim);border:1px solid var(--gold-border)">
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;margin-bottom:6px;font-size:14px">📦 Reparto a domicilio</div>
+          <div style="font-size:13px;color:var(--muted);line-height:1.6">Disponible para pedidos mayoristas y comercios. Consulta condiciones por WhatsApp.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NOSOTROS ── -->
+<section id="nosotros">
+  <div class="section-wrap">
+    <div class="nosotros-wrap">
+      <div>
+        <span class="section-tag">Nuestra historia</span>
+        <h2 class="section-title">Tres generaciones de panaderos</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:8px">
+          Desde 1985 horneamos cada día en el mismo obrador. Empezamos con una sola variedad de pan. Hoy hacemos más de cuarenta, pero el proceso no ha cambiado.
+        </p>
+        <p style="font-size:15px;color:var(--muted);line-height:1.8;">
+          Masa madre que llevamos cultivando décadas, harinas de molinos de confianza y el tiempo necesario para que cada pieza salga bien. Sin atajos.
+        </p>
+        <div class="nosotros-features">
+          <div class="nosotros-feat">
+            <div class="nosotros-feat-icon">🌾</div>
+            <div>
+              <div class="nosotros-feat-title">Harinas de molino</div>
+              <div class="nosotros-feat-desc">Trabajamos con molineros locales. Harinas de temporada, trazabilidad completa.</div>
+            </div>
+          </div>
+          <div class="nosotros-feat">
+            <div class="nosotros-feat-icon">⏱️</div>
+            <div>
+              <div class="nosotros-feat-title">Fermentación lenta</div>
+              <div class="nosotros-feat-desc">Mínimo 18 horas de reposo. El tiempo es el ingrediente más importante.</div>
+            </div>
+          </div>
+          <div class="nosotros-feat">
+            <div class="nosotros-feat-icon">🔥</div>
+            <div>
+              <div class="nosotros-feat-title">Horno de piedra</div>
+              <div class="nosotros-feat-desc">Cocción directa sobre solera de piedra refractaria para una corteza perfecta.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nosotros-visual">
+        <div class="nosotros-visual-placeholder">
+          <span class="nosotros-visual-emoji">🍞</span>
+          <div class="nosotros-visual-text">Foto del obrador</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACTO ── -->
+<section id="contacto">
+  <div class="section-wrap">
+    <span class="section-tag">Encuéntranos</span>
+    <h2 class="section-title">Visítanos</h2>
+    <div class="contacto-grid">
+      <div class="contacto-card">
+        <span class="contacto-card-icon">📍</span>
+        <div class="contacto-card-title">Dirección</div>
+        <div class="contacto-card-val">Calle del Pan, 12<br/>28001 Madrid</div>
+      </div>
+      <div class="contacto-card">
+        <span class="contacto-card-icon">📱</span>
+        <div class="contacto-card-title">WhatsApp / Teléfono</div>
+        <div class="contacto-card-val">+34 600 000 000<br/><a href="#" style="color:var(--gold);font-size:13px">Escribir por WhatsApp →</a></div>
+      </div>
+      <div class="contacto-card">
+        <span class="contacto-card-icon">📧</span>
+        <div class="contacto-card-title">Email</div>
+        <div class="contacto-card-val">hola@latahona.es<br/><span style="font-size:12px;color:var(--subtle)">Respondemos en menos de 24h</span></div>
+      </div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);height:280px;display:flex;align-items:center;justify-content:center">
+      <div style="text-align:center;color:var(--muted)">
+        <span class="material-symbols-outlined" style="font-size:36px!important;margin-bottom:12px;display:block;opacity:.4">map</span>
+        <p style="font-size:13px">Mapa de ubicación</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">La <span>Tahona</span></div>
+  <div class="footer-links">
+    <a href="#productos">Productos</a>
+    <a href="#pedido">Pedido online</a>
+    <a href="#nosotros">Nosotros</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+  <div class="footer-copy">© 2026 La Tahona · Hecho con ❤️ por Diskontrol</div>
+</footer>
+
+</body>
+</html>
