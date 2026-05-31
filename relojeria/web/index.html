@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>KRONOS — Relojes de Autor</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #08090c;
+  --surface:  rgba(255,255,255,0.04);
+  --border:   rgba(255,255,255,0.08);
+  --text:     #f0ede8;
+  --muted:    rgba(240,237,232,0.5);
+  --subtle:   rgba(240,237,232,0.22);
+  --gold:     #c9a84c;
+  --gold-lt:  #e2c97e;
+  --gold-dim: rgba(201,168,76,0.10);
+  --gold-b:   rgba(201,168,76,0.22);
+  --silver:   #b0b8c4;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--text);
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; line-height: 1.6; overflow-x: hidden;
+}
+
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 900px 600px at 110% -10%, rgba(201,168,76,0.05) 0%, transparent 65%),
+    radial-gradient(ellipse 700px 500px at -10% 100%, rgba(176,184,196,0.04) 0%, transparent 65%);
+}
+
+a { color: var(--gold); text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+.material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 24; font-size:18px!important; vertical-align:middle; }
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  background: rgba(8,9,12,0.94); backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 0 48px; height: 64px;
+}
+.nav-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 500; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--text);
+}
+.nav-logo span { color: var(--gold); }
+.nav-links { display:flex; align-items:center; gap:36px; }
+.nav-links a { font-size:13px; font-weight:500; color:var(--muted); letter-spacing:.04em; transition:color .15s; }
+.nav-links a:hover { color:var(--text); }
+.nav-right { display:flex; align-items:center; gap:20px; }
+.nav-icon { background:none; border:none; color:var(--muted); transition:color .15s; padding:4px; }
+.nav-icon:hover { color:var(--text); }
+.nav-cta {
+  background:var(--gold); color:#0a0800;
+  border:none; padding:9px 22px;
+  font-size:12px; font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+  letter-spacing:.06em; text-transform:uppercase;
+  transition:opacity .15s;
+}
+.nav-cta:hover { opacity:.88; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display:flex; align-items:center;
+  padding: 100px 48px 80px;
+  position:relative; z-index:1;
+  overflow:hidden;
+}
+.hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; width:100%; }
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:10px;
+  font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--gold); margin-bottom:24px;
+}
+.hero-line { width:32px; height:1px; background:var(--gold); }
+.hero h1 {
+  font-family:'Cormorant Garamond',serif;
+  font-size: clamp(44px, 5.5vw, 72px);
+  font-weight:400; line-height:1.1;
+  margin-bottom:24px; letter-spacing:.01em;
+}
+.hero h1 em { font-style:italic; color:var(--gold-lt); }
+.hero-sub { font-size:16px; color:var(--muted); line-height:1.8; max-width:440px; margin-bottom:40px; }
+.hero-btns { display:flex; gap:14px; align-items:center; flex-wrap:wrap; }
+.btn-primary {
+  background:var(--gold); color:#0a0800;
+  border:none; padding:13px 30px;
+  font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  font-family:'Space Grotesk',sans-serif;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:opacity .15s, transform .15s;
+}
+.btn-primary:hover { opacity:.88; transform:translateY(-1px); }
+.btn-outline {
+  background:transparent; color:var(--text);
+  border:1px solid var(--border); padding:13px 30px;
+  font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase;
+  font-family:'Space Grotesk',sans-serif;
+  display:inline-flex; align-items:center; gap:8px;
+  transition:border-color .15s, background .15s;
+}
+.btn-outline:hover { border-color:var(--gold-b); background:var(--gold-dim); }
+.hero-trust { display:flex; gap:32px; margin-top:48px; padding-top:32px; border-top:1px solid var(--border); flex-wrap:wrap; }
+.hero-trust-item { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+.hero-trust-item .material-symbols-outlined { color:var(--gold); font-size:16px!important; }
+
+.hero-visual {
+  background:rgba(255,255,255,0.02); border:1px solid var(--border);
+  height:520px; display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden;
+}
+.hero-visual::before {
+  content:''; position:absolute; inset:0;
+  background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+}
+.hero-watch-placeholder { text-align:center; position:relative; z-index:1; }
+.hero-watch-emoji { font-size:120px; display:block; margin-bottom:20px; filter:drop-shadow(0 0 40px rgba(201,168,76,0.3)); }
+.hero-watch-label { font-size:11px; color:var(--subtle); letter-spacing:.1em; text-transform:uppercase; }
+
+/* ── TICKER TAPE ── */
+.ticker-wrap {
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  background:rgba(201,168,76,0.03); overflow:hidden;
+  padding:12px 0; position:relative; z-index:1;
+}
+.ticker { display:flex; gap:0; animation:ticker 30s linear infinite; white-space:nowrap; }
+.ticker-item { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); padding:0 32px; }
+.ticker-item span { color:var(--gold); margin-right:32px; }
+@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+/* ── COLECCIONES ── */
+#colecciones { position:relative; z-index:1; }
+.section-wrap { max-width:1200px; margin:0 auto; padding:80px 48px; }
+.section-eyebrow { font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gold); margin-bottom:12px; display:flex; align-items:center; gap:12px; }
+.section-eyebrow::after { content:''; flex:1; height:1px; background:var(--border); max-width:80px; }
+.section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(28px,4vw,48px); font-weight:400; line-height:1.2; margin-bottom:48px; }
+
+.colecciones-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+.coleccion-card {
+  background:var(--bg); padding:32px 28px;
+  display:flex; flex-direction:column; gap:16px;
+  cursor:pointer; transition:background .2s;
+  position:relative; overflow:hidden;
+}
+.coleccion-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:2px; background:var(--gold);
+  transform:scaleX(0); transform-origin:left;
+  transition:transform .3s ease;
+}
+.coleccion-card:hover { background:rgba(201,168,76,0.03); }
+.coleccion-card:hover::after { transform:scaleX(1); }
+.col-emoji { font-size:48px; margin-bottom:8px; display:block; }
+.col-nombre { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:500; }
+.col-desc { font-size:13px; color:var(--muted); line-height:1.6; flex:1; }
+.col-desde { font-size:12px; color:var(--gold); font-weight:600; letter-spacing:.04em; }
+.col-arrow { color:var(--gold); margin-top:auto; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; }
+
+/* ── PRODUCTO DESTACADO ── */
+#destacado { border-top:1px solid var(--border); background:rgba(255,255,255,0.015); }
+.destacado-wrap { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.destacado-visual {
+  background:rgba(255,255,255,0.025); border:1px solid var(--border);
+  height:480px; display:flex; align-items:center; justify-content:center;
+  position:relative;
+}
+.destacado-visual::before {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(201,168,76,0.07) 0%, transparent 70%);
+}
+.dest-badge {
+  position:absolute; top:20px; left:20px; z-index:1;
+  background:var(--gold); color:#0a0800;
+  font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:5px 12px;
+}
+.dest-emoji { font-size:100px; position:relative; z-index:1; filter:drop-shadow(0 0 30px rgba(201,168,76,0.25)); }
+.dest-nombre { font-family:'Cormorant Garamond',serif; font-size:36px; font-weight:400; margin-bottom:8px; line-height:1.2; }
+.dest-ref { font-size:11px; color:var(--subtle); letter-spacing:.1em; text-transform:uppercase; margin-bottom:20px; }
+.dest-precio { font-family:'Cormorant Garamond',serif; font-size:42px; font-weight:500; color:var(--gold); margin-bottom:8px; }
+.dest-precio-sub { font-size:12px; color:var(--muted); margin-bottom:28px; }
+.dest-specs { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); margin-bottom:28px; }
+.dest-spec { background:var(--bg); padding:12px 16px; }
+.dest-spec-lbl { font-size:10px; color:var(--subtle); text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+.dest-spec-val { font-size:13px; font-weight:600; }
+
+/* ── GARANTÍAS ── */
+#garantias { border-top:1px solid var(--border); }
+.garantias-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); }
+.garantia-card { background:var(--bg); padding:32px 24px; text-align:center; transition:background .15s; }
+.garantia-card:hover { background:rgba(201,168,76,0.03); }
+.garantia-icon { font-size:32px; margin-bottom:16px; display:block; }
+.garantia-titulo { font-family:'Space Grotesk',sans-serif; font-size:14px; font-weight:700; margin-bottom:8px; }
+.garantia-desc { font-size:12px; color:var(--muted); line-height:1.6; }
+
+/* ── NEWSLETTER ── */
+#newsletter {
+  background:rgba(201,168,76,0.04); border-top:1px solid var(--gold-b); border-bottom:1px solid var(--gold-b);
+  position:relative; z-index:1;
+}
+.newsletter-wrap { text-align:center; max-width:560px; margin:0 auto; padding:80px 24px; }
+.newsletter-wrap .section-title { margin-bottom:12px; }
+.newsletter-sub { font-size:15px; color:var(--muted); margin-bottom:32px; line-height:1.7; }
+.newsletter-form { display:flex; gap:0; max-width:440px; margin:0 auto; }
+.newsletter-input {
+  flex:1; background:rgba(255,255,255,0.04); border:1px solid var(--border);
+  border-right:none; color:var(--text); font-size:14px; padding:12px 16px;
+  outline:none; font-family:inherit; transition:border-color .15s;
+}
+.newsletter-input:focus { border-color:var(--gold-b); }
+.newsletter-input::placeholder { color:var(--subtle); }
+.newsletter-btn {
+  background:var(--gold); color:#0a0800; border:none;
+  padding:12px 24px; font-size:12px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+  font-family:'Space Grotesk',sans-serif; white-space:nowrap;
+  transition:opacity .15s;
+}
+.newsletter-btn:hover { opacity:.88; }
+.newsletter-note { font-size:11px; color:var(--subtle); margin-top:14px; }
+
+/* ── FOOTER ── */
+footer {
+  border-top:1px solid var(--border);
+  position:relative; z-index:1;
+}
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; padding:60px 48px; }
+.footer-logo-wrap .nav-logo { font-size:20px; display:block; margin-bottom:16px; }
+.footer-desc { font-size:13px; color:var(--muted); line-height:1.7; max-width:260px; }
+.footer-col-title { font-family:'Space Grotesk',sans-serif; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+.footer-links-list { display:flex; flex-direction:column; gap:10px; }
+.footer-links-list a { font-size:13px; color:var(--muted); transition:color .15s; }
+.footer-links-list a:hover { color:var(--text); }
+.footer-bottom {
+  border-top:1px solid var(--border); padding:20px 48px;
+  display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:12px;
+}
+.footer-copy { font-size:12px; color:var(--subtle); }
+.footer-payments { display:flex; gap:10px; align-items:center; }
+.payment-badge {
+  background:rgba(255,255,255,0.06); border:1px solid var(--border);
+  font-size:10px; font-weight:700; padding:3px 8px; color:var(--muted); letter-spacing:.04em;
+}
+
+/* ── CARRITO LATERAL (placeholder) ── */
+.cart-count {
+  position:absolute; top:-4px; right:-4px;
+  width:16px; height:16px; border-radius:50%;
+  background:var(--gold); color:#0a0800;
+  font-size:9px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  nav { padding:0 20px; }
+  .nav-links { display:none; }
+  .hero { padding:90px 20px 60px; }
+  .hero-grid { grid-template-columns:1fr; gap:48px; }
+  .hero-visual { height:300px; }
+  .hero-watch-emoji { font-size:80px; }
+  .section-wrap { padding:60px 20px; }
+  .colecciones-grid { grid-template-columns:1fr; }
+  .destacado-wrap { grid-template-columns:1fr; gap:40px; }
+  .destacado-visual { height:300px; }
+  .garantias-grid { grid-template-columns:repeat(2,1fr); }
+  .footer-top { grid-template-columns:1fr 1fr; gap:32px; padding:40px 20px; }
+  .footer-bottom { padding:16px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">KRO<span>N</span>OS</div>
+  <div class="nav-links">
+    <a href="#colecciones">Colecciones</a>
+    <a href="#destacado">Destacado</a>
+    <a href="#garantias">Garantías</a>
+    <a href="#newsletter">Contacto</a>
+  </div>
+  <div class="nav-right">
+    <button class="nav-icon"><span class="material-symbols-outlined">search</span></button>
+    <button class="nav-icon" style="position:relative">
+      <span class="material-symbols-outlined">shopping_bag</span>
+      <span class="cart-count">0</span>
+    </button>
+    <button class="nav-cta">Comprar</button>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow"><span class="hero-line"></span>Nueva colección 2026</div>
+      <h1>El tiempo,<br/>hecho <em>obra de arte</em></h1>
+      <p class="hero-sub">
+        Relojes de autor con movimiento suizo. Diseñados para quienes entienden que un reloj no solo mide el tiempo — lo define.
+      </p>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="document.getElementById('colecciones').scrollIntoView({behavior:'smooth'})">
+          <span class="material-symbols-outlined">diamond</span>Ver colecciones
+        </button>
+        <button class="btn-outline" onclick="document.getElementById('destacado').scrollIntoView({behavior:'smooth'})">
+          Reloj del mes
+        </button>
+      </div>
+      <div class="hero-trust">
+        <div class="hero-trust-item"><span class="material-symbols-outlined">local_shipping</span>Envío gratis a EEUU</div>
+        <div class="hero-trust-item"><span class="material-symbols-outlined">verified</span>Garantía 2 años</div>
+        <div class="hero-trust-item"><span class="material-symbols-outlined">sync</span>Devolución 30 días</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-watch-placeholder">
+        <span class="hero-watch-emoji">⌚</span>
+        <div class="hero-watch-label">Fotografía del producto</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TICKER ── -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">Movimiento suizo <span>✦</span></span>
+    <span class="ticker-item">Envío gratis en EEUU <span>✦</span></span>
+    <span class="ticker-item">Garantía 2 años <span>✦</span></span>
+    <span class="ticker-item">Devolución 30 días <span>✦</span></span>
+    <span class="ticker-item">Cristal zafiro <span>✦</span></span>
+    <span class="ticker-item">Acero 316L <span>✦</span></span>
+    <span class="ticker-item">Movimiento suizo <span>✦</span></span>
+    <span class="ticker-item">Envío gratis en EEUU <span>✦</span></span>
+    <span class="ticker-item">Garantía 2 años <span>✦</span></span>
+    <span class="ticker-item">Devolución 30 días <span>✦</span></span>
+    <span class="ticker-item">Cristal zafiro <span>✦</span></span>
+    <span class="ticker-item">Acero 316L <span>✦</span></span>
+  </div>
+</div>
+
+<!-- ── COLECCIONES ── -->
+<section id="colecciones">
+  <div class="section-wrap">
+    <div class="section-eyebrow">Colecciones</div>
+    <h2 class="section-title">Encuentra tu estilo</h2>
+    <div class="colecciones-grid">
+
+      <div class="coleccion-card">
+        <span class="col-emoji">🕐</span>
+        <div class="col-nombre">Clásica</div>
+        <div class="col-desc">Elegancia atemporal. Esfera limpia, índices aplicados y correa de cuero italiano. Para quienes no necesitan demostrar nada.</div>
+        <div class="col-desde">Desde $195</div>
+        <div class="col-arrow"><span class="material-symbols-outlined">arrow_forward</span>Ver colección</div>
+      </div>
+
+      <div class="coleccion-card">
+        <span class="col-emoji">🏆</span>
+        <div class="col-nombre">Sport</div>
+        <div class="col-desc">Resistencia al agua 100m, bisel giratorio y correa de caucho de alta resistencia. Diseñada para moverse.</div>
+        <div class="col-desde">Desde $165</div>
+        <div class="col-arrow"><span class="material-symbols-outlined">arrow_forward</span>Ver colección</div>
+      </div>
+
+      <div class="coleccion-card">
+        <span class="col-emoji">✨</span>
+        <div class="col-nombre">Luxury</div>
+        <div class="col-desc">Caja de acero pulido, cristal de zafiro antireflejos y movimiento automático visible. Una obra de ingeniería.</div>
+        <div class="col-desde">Desde $390</div>
+        <div class="col-arrow"><span class="material-symbols-outlined">arrow_forward</span>Ver colección</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── DESTACADO ── -->
+<section id="destacado">
+  <div class="section-wrap">
+    <div class="destacado-wrap">
+      <div class="destacado-visual">
+        <div class="dest-badge">Más vendido</div>
+        <span class="dest-emoji">⌚</span>
+      </div>
+      <div>
+        <div class="section-eyebrow">Reloj del mes</div>
+        <div class="dest-nombre">KRONOS Clásica 40<br/>Esfera Negra</div>
+        <div class="dest-ref">REF. KRN-CL40-BK · Edición 2026</div>
+        <div class="dest-precio">$249</div>
+        <div class="dest-precio-sub">Envío gratuito · Entrega en 5–7 días</div>
+        <div class="dest-specs">
+          <div class="dest-spec"><div class="dest-spec-lbl">Caja</div><div class="dest-spec-val">Acero 316L · 40mm</div></div>
+          <div class="dest-spec"><div class="dest-spec-lbl">Cristal</div><div class="dest-spec-val">Zafiro antireflejos</div></div>
+          <div class="dest-spec"><div class="dest-spec-lbl">Movimiento</div><div class="dest-spec-val">Cuarzo suizo</div></div>
+          <div class="dest-spec"><div class="dest-spec-lbl">Agua</div><div class="dest-spec-val">30m resistente</div></div>
+          <div class="dest-spec"><div class="dest-spec-lbl">Correa</div><div class="dest-spec-val">Cuero italiano negro</div></div>
+          <div class="dest-spec"><div class="dest-spec-lbl">Garantía</div><div class="dest-spec-val">2 años</div></div>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn-primary">
+            <span class="material-symbols-outlined">shopping_bag</span>Añadir al carrito
+          </button>
+          <button class="btn-outline">
+            <span class="material-symbols-outlined">favorite_border</span>Favorito
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── GARANTÍAS ── -->
+<section id="garantias">
+  <div class="section-wrap" style="padding-top:0">
+    <div class="garantias-grid">
+      <div class="garantia-card">
+        <span class="garantia-icon">🚚</span>
+        <div class="garantia-titulo">Envío gratis</div>
+        <div class="garantia-desc">Envío gratuito a todo EEUU en pedidos superiores a $99. Entrega en 5–7 días laborables.</div>
+      </div>
+      <div class="garantia-card">
+        <span class="garantia-icon">🛡️</span>
+        <div class="garantia-titulo">Garantía 2 años</div>
+        <div class="garantia-desc">Todos nuestros relojes incluyen garantía oficial de 2 años contra defectos de fabricación.</div>
+      </div>
+      <div class="garantia-card">
+        <span class="garantia-icon">↩️</span>
+        <div class="garantia-titulo">Devolución 30 días</div>
+        <div class="garantia-desc">No te convence, te devolvemos el dinero. Sin preguntas, sin complicaciones.</div>
+      </div>
+      <div class="garantia-card">
+        <span class="garantia-icon">🔒</span>
+        <div class="garantia-titulo">Pago seguro</div>
+        <div class="garantia-desc">Pagos encriptados con SSL. Aceptamos Visa, Mastercard, PayPal, Apple Pay y Google Pay.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── NEWSLETTER ── -->
+<section id="newsletter">
+  <div class="newsletter-wrap">
+    <div class="section-eyebrow" style="justify-content:center;margin-bottom:12px">Novedades</div>
+    <h2 class="section-title">Sé el primero en saberlo</h2>
+    <p class="newsletter-sub">Nuevas colecciones, ediciones limitadas y ofertas exclusivas. Solo para suscriptores.</p>
+    <div class="newsletter-form">
+      <input class="newsletter-input" type="email" placeholder="tu@email.com"/>
+      <button class="newsletter-btn">Suscribirme</button>
+    </div>
+    <p class="newsletter-note">Sin spam. Baja cuando quieras.</p>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-logo-wrap">
+      <span class="nav-logo">KRO<span style="color:var(--gold)">N</span>OS</span>
+      <p class="footer-desc">Relojes de autor con movimiento suizo. Diseñados para durar toda una vida.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">Tienda</div>
+      <div class="footer-links-list">
+        <a href="#">Colección Clásica</a>
+        <a href="#">Colección Sport</a>
+        <a href="#">Colección Luxury</a>
+        <a href="#">Ofertas</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Ayuda</div>
+      <div class="footer-links-list">
+        <a href="#">Envíos y entregas</a>
+        <a href="#">Devoluciones</a>
+        <a href="#">Garantía</a>
+        <a href="#">Contacto</a>
+      </div>
+    </div>
+    <div>
+      <div class="footer-col-title">Empresa</div>
+      <div class="footer-links-list">
+        <a href="#">Sobre nosotros</a>
+        <a href="#">Blog</a>
+        <a href="#">Aviso legal</a>
+        <a href="#">Privacidad</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 KRONOS Watches · Hecho con ❤️ por Diskontrol</div>
+    <div class="footer-payments">
+      <span class="payment-badge">VISA</span>
+      <span class="payment-badge">MASTERCARD</span>
+      <span class="payment-badge">PAYPAL</span>
+      <span class="payment-badge">APPLE PAY</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
