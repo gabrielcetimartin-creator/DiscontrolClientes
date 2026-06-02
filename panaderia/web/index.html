@@ -615,12 +615,15 @@ footer {
         <div class="contacto-card-val">hola@latahona.es<br/><span style="font-size:12px;color:var(--subtle)">Respondemos en menos de 24h</span></div>
       </div>
     </div>
-    <div style="background:var(--surface);border:1px solid var(--border);height:280px;display:flex;align-items:center;justify-content:center">
+    <a href="https://maps.google.com/?q=Calle+del+Pan+12+Madrid" target="_blank"
+       style="display:block;background:var(--surface);border:1px solid var(--border);height:280px;display:flex;align-items:center;justify-content:center;text-decoration:none;transition:border-color .15s"
+       onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='rgba(255,255,255,0.08)'">
       <div style="text-align:center;color:var(--muted)">
-        <span class="material-symbols-outlined" style="font-size:36px!important;margin-bottom:12px;display:block;opacity:.4">map</span>
-        <p style="font-size:13px">Mapa de ubicación</p>
+        <span class="material-symbols-outlined" style="font-size:36px!important;margin-bottom:12px;display:block;color:var(--gold);opacity:.7">map</span>
+        <p style="font-size:13px;color:var(--muted)">Ver en Google Maps →</p>
+        <p style="font-size:11px;color:var(--subtle);margin-top:4px">Calle del Pan, 12 · Madrid</p>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -647,23 +650,52 @@ function toggleMenu() {
 
 // ── Formulario → WhatsApp ──
 function submitPedido() {
-  const nombre   = document.getElementById("inp-nombre")?.value.trim();
-  const tel      = document.getElementById("inp-tel")?.value.trim();
-  const producto = document.getElementById("inp-producto")?.value;
-  const cantidad = document.getElementById("inp-cantidad")?.value.trim();
-  const fecha    = document.getElementById("inp-fecha")?.value;
-  const err      = document.getElementById("form-err");
+  const fields = [
+    { id:"inp-nombre",   label:"Nombre" },
+    { id:"inp-tel",      label:"Teléfono" },
+    { id:"inp-producto", label:"Producto" },
+    { id:"inp-cantidad", label:"Cantidad" },
+    { id:"inp-fecha",    label:"Día de recogida" },
+  ];
+  const err = document.getElementById("form-err");
+  let hasError = false;
 
-  if (!nombre || !tel || !producto || !cantidad || !fecha) {
-    err.textContent = "Por favor, rellena todos los campos antes de enviar.";
+  fields.forEach(({ id }) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const empty = !el.value.trim();
+    el.style.borderColor = empty ? "var(--warm)" : "";
+    if (empty) hasError = true;
+  });
+
+  if (hasError) {
+    err.textContent = "Rellena los campos marcados en naranja para continuar.";
     return;
   }
   err.textContent = "";
 
+  const nombre   = document.getElementById("inp-nombre").value.trim();
+  const tel      = document.getElementById("inp-tel").value.trim();
+  const producto = document.getElementById("inp-producto").value;
+  const cantidad = document.getElementById("inp-cantidad").value.trim();
+  const fecha    = document.getElementById("inp-fecha").value;
+
+  const btn = document.querySelector('[onclick="submitPedido()"]');
+  if (btn) { btn.disabled = true; btn.textContent = "Abriendo WhatsApp..."; }
+
   const fechaFmt = new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday:"long", day:"numeric", month:"long" });
   const msg = `Hola, quiero hacer un pedido en La Tahona 🍞\n\n👤 Nombre: ${nombre}\n📱 Teléfono: ${tel}\n🛒 Producto: ${producto}\n📦 Cantidad/detalles: ${cantidad}\n📅 Recogida: ${fechaFmt}\n\nGracias!`;
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
-  showToast("¡Abriendo WhatsApp con tu pedido! ✓");
+  const waUrl = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
+  const newWin = window.open(waUrl, "_blank");
+
+  setTimeout(() => {
+    if (btn) { btn.disabled = false; btn.innerHTML = '<span class="material-symbols-outlined">send</span>Enviar pedido por WhatsApp'; }
+    if (!newWin || newWin.closed) {
+      showToast("¿No abrió WhatsApp? Escríbenos al " + WA_NUMBER);
+    } else {
+      showToast("¡Pedido enviado por WhatsApp! ✓");
+    }
+  }, 1200);
 }
 
 function showToast(msg) {
@@ -672,6 +704,13 @@ function showToast(msg) {
   t.classList.add("show");
   setTimeout(() => t.classList.remove("show"), 3500);
 }
+
+// ── Limpiar borde de error al escribir ──
+["inp-nombre","inp-tel","inp-producto","inp-cantidad","inp-fecha"].forEach(id => {
+  document.getElementById(id)?.addEventListener("input", function() {
+    if (this.value.trim()) this.style.borderColor = "";
+  });
+});
 
 // ── Fecha mínima = mañana ──
 (function() {

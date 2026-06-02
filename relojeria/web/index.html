@@ -576,14 +576,17 @@ function addToCart(name, price) {
   cart.push({ name, price });
   localStorage.setItem("kronos-cart", JSON.stringify(cart));
   updateCartCount();
-  showToast(`✓ ${name} añadido al carrito`);
+  showToast(`✓ ${name} añadido · ${cart.length} en carrito`);
 }
 
 function openCart() {
-  if (!cart.length) { showToast("Tu carrito está vacío"); return; }
+  if (!cart.length) { showToast("Tu carrito está vacío — añade algún reloj"); return; }
   const items = cart.map(i => `• ${i.name} — ${i.price}`).join("\n");
   const msg   = `Hola, quiero comprar:\n\n${items}\n\n¿Me podéis confirmar disponibilidad y métodos de pago? Gracias.`;
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  const newWin = window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  setTimeout(() => {
+    if (!newWin || newWin.closed) showToast(`¿No abrió WhatsApp? Escríbenos al ${WA_NUMBER}`);
+  }, 1500);
 }
 
 // ── Newsletter ──
