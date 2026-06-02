@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>KRONOS — Relojes de Autor</title>
+<title>KRONOS — Relojes de Autor · Movimiento Suizo</title>
+<meta name="description" content="Relojes de autor con movimiento suizo. Diseñados para quienes entienden que un reloj no solo mide el tiempo — lo define. Envío gratis, garantía 2 años."/>
+<meta property="og:title" content="KRONOS — Relojes de Autor"/>
+<meta property="og:description" content="Colecciones exclusivas con movimiento suizo. Envío gratis a todo EEUU."/>
+<meta property="og:type" content="website"/>
+<meta name="theme-color" content="#c9a84c"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
@@ -265,10 +270,30 @@ footer {
   display:flex; align-items:center; justify-content:center;
 }
 
+/* ── HAMBURGER ── */
+.nav-burger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; cursor:pointer; }
+.nav-burger span { display:block; width:22px; height:2px; background:var(--text); transition:all .25s; }
+.nav-burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0; }
+.nav-burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.nav-mobile { display:none; position:fixed; inset:0; top:64px; background:rgba(8,9,12,.98); backdrop-filter:blur(20px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
+.nav-mobile.open { display:flex; }
+.nav-mobile a { font-size:20px; font-weight:500; color:var(--text); letter-spacing:.06em; text-transform:uppercase; }
+.nav-mobile a:hover { color:var(--gold); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(20px); transition:opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── TOAST ── */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:rgba(201,168,76,.12); border:1px solid var(--gold-b); color:var(--gold-lt); font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; padding:12px 28px; z-index:9000; opacity:0; transition:all .3s ease; pointer-events:none; white-space:nowrap; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   nav { padding:0 20px; }
-  .nav-links { display:none; }
+  .nav-links, .nav-cta { display:none; }
+  .nav-burger { display:flex; }
   .hero { padding:90px 20px 60px; }
   .hero-grid { grid-template-columns:1fr; gap:48px; }
   .hero-visual { height:300px; }
@@ -296,13 +321,23 @@ footer {
   </div>
   <div class="nav-right">
     <button class="nav-icon"><span class="material-symbols-outlined">search</span></button>
-    <button class="nav-icon" style="position:relative">
+    <button class="nav-icon" style="position:relative" onclick="openCart()">
       <span class="material-symbols-outlined">shopping_bag</span>
-      <span class="cart-count">0</span>
+      <span class="cart-count" id="cart-count">0</span>
     </button>
-    <button class="nav-cta">Comprar</button>
+    <button class="nav-cta" onclick="document.getElementById('colecciones').scrollIntoView({behavior:'smooth'})">Comprar</button>
+    <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<nav class="nav-mobile" id="nav-mobile">
+  <a href="#colecciones" onclick="toggleMenu()">Colecciones</a>
+  <a href="#destacado"   onclick="toggleMenu()">Destacado</a>
+  <a href="#garantias"   onclick="toggleMenu()">Garantías</a>
+  <a href="#newsletter"  onclick="toggleMenu()">Contacto</a>
+</nav>
+<div id="toast"></div>
 
 <!-- ── HERO ── -->
 <section class="hero">
@@ -412,10 +447,10 @@ footer {
           <div class="dest-spec"><div class="dest-spec-lbl">Garantía</div><div class="dest-spec-val">2 años</div></div>
         </div>
         <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <button class="btn-primary">
+          <button class="btn-primary" onclick="addToCart('KRONOS Clásica 40 Esfera Negra','$249')">
             <span class="material-symbols-outlined">shopping_bag</span>Añadir al carrito
           </button>
-          <button class="btn-outline">
+          <button class="btn-outline" onclick="showToast('💬 Consulta por WhatsApp para más info')">
             <span class="material-symbols-outlined">favorite_border</span>Favorito
           </button>
         </div>
@@ -459,8 +494,8 @@ footer {
     <h2 class="section-title">Sé el primero en saberlo</h2>
     <p class="newsletter-sub">Nuevas colecciones, ediciones limitadas y ofertas exclusivas. Solo para suscriptores.</p>
     <div class="newsletter-form">
-      <input class="newsletter-input" type="email" placeholder="tu@email.com"/>
-      <button class="newsletter-btn">Suscribirme</button>
+      <input class="newsletter-input" id="nl-email" type="email" placeholder="tu@email.com"/>
+      <button class="newsletter-btn" onclick="subscribeNewsletter()">Suscribirme</button>
     </div>
     <p class="newsletter-note">Sin spam. Baja cuando quieras.</p>
   </div>
@@ -512,5 +547,66 @@ footer {
   </div>
 </footer>
 
+<script>
+const WA_NUMBER = "1234567890"; // ← sustituir por el número real del cliente
+
+// ── Hamburger ──
+function toggleMenu() {
+  document.getElementById("burger").classList.toggle("open");
+  document.getElementById("nav-mobile").classList.toggle("open");
+}
+
+// ── Toast ──
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+// ── Carrito simple ──
+let cart = JSON.parse(localStorage.getItem("kronos-cart") || "[]");
+
+function updateCartCount() {
+  const el = document.getElementById("cart-count");
+  if (el) el.textContent = cart.length;
+}
+
+function addToCart(name, price) {
+  cart.push({ name, price });
+  localStorage.setItem("kronos-cart", JSON.stringify(cart));
+  updateCartCount();
+  showToast(`✓ ${name} añadido al carrito`);
+}
+
+function openCart() {
+  if (!cart.length) { showToast("Tu carrito está vacío"); return; }
+  const items = cart.map(i => `• ${i.name} — ${i.price}`).join("\n");
+  const msg   = `Hola, quiero comprar:\n\n${items}\n\n¿Me podéis confirmar disponibilidad y métodos de pago? Gracias.`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+// ── Newsletter ──
+function subscribeNewsletter() {
+  const el = document.getElementById("nl-email");
+  if (!el?.value.trim() || !el.value.includes("@")) {
+    showToast("Introduce un email válido"); return;
+  }
+  showToast("¡Suscrito! Pronto recibirás novedades ✓");
+  el.value = "";
+}
+
+// ── Scroll reveal ──
+(function() {
+  const targets = document.querySelectorAll("section, .coleccion-card, .garantia-card");
+  targets.forEach(el => el.classList.add("reveal"));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  targets.forEach(el => obs.observe(el));
+})();
+
+updateCartCount();
+</script>
 </body>
 </html>

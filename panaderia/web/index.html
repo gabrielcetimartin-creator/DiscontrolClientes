@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Panadería — Artesanal desde 1985</title>
+<title>La Tahona — Pan artesanal desde 1985</title>
+<meta name="description" content="Panadería artesanal con más de 38 años de historia. Pan de masa madre, bollería y pastelería elaborados cada mañana en obrador propio. Pedido online con recogida en tienda."/>
+<meta property="og:title" content="La Tahona — Pan artesanal desde 1985"/>
+<meta property="og:description" content="Pan de masa madre, bollería y pastelería artesanal. Pedido online, recogida en tienda."/>
+<meta property="og:type" content="website"/>
+<meta name="theme-color" content="#d4a853"/>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <style>
@@ -269,10 +274,30 @@ footer {
 .footer-links a:hover { color: var(--text); }
 .footer-copy { font-size: 12px; color: var(--subtle); }
 
+/* ── HAMBURGER ── */
+.nav-burger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:8px; cursor:pointer; }
+.nav-burger span { display:block; width:22px; height:2px; background:var(--text); transition:all .25s; }
+.nav-burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0; }
+.nav-burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.nav-mobile { display:none; position:fixed; inset:0; top:60px; background:rgba(13,11,8,.98); backdrop-filter:blur(16px); z-index:99; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
+.nav-mobile.open { display:flex; }
+.nav-mobile a { font-size:20px; font-weight:600; color:var(--text); }
+.nav-mobile a:hover { color:var(--gold); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity:0; transform:translateY(20px); transition:opacity .55s ease, transform .55s ease; }
+.reveal.visible { opacity:1; transform:none; }
+
+/* ── TOAST ── */
+#toast { position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); background:rgba(212,168,83,.15); border:1px solid var(--gold-border); color:var(--gold); font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; padding:12px 24px; z-index:9000; opacity:0; transition:all .3s ease; pointer-events:none; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
   nav { padding: 0 20px; }
-  .nav-links { display: none; }
+  .nav-links, .nav-cta { display: none; }
+  .nav-burger { display: flex; }
   .pasos-grid { grid-template-columns: 1fr; }
   .pedido-wrap { grid-template-columns: 1fr; gap: 40px; }
   .nosotros-wrap { grid-template-columns: 1fr; }
@@ -298,7 +323,18 @@ footer {
   <button class="nav-cta" onclick="document.getElementById('pedido').scrollIntoView({behavior:'smooth'})">
     Hacer pedido
   </button>
+  <button class="nav-burger" id="burger" onclick="toggleMenu()" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<nav class="nav-mobile" id="nav-mobile">
+  <a href="#productos"  onclick="toggleMenu()">Productos</a>
+  <a href="#como-pedir" onclick="toggleMenu()">Cómo pedir</a>
+  <a href="#pedido"     onclick="toggleMenu()">Pedido online</a>
+  <a href="#nosotros"   onclick="toggleMenu()">Nosotros</a>
+  <a href="#contacto"   onclick="toggleMenu()">Contacto</a>
+</nav>
+<div id="toast"></div>
 
 <!-- ── HERO ── -->
 <section class="hero">
@@ -454,15 +490,15 @@ footer {
         <div class="pedido-form">
           <div>
             <label class="field-label">Nombre</label>
-            <input class="field-input" type="text" placeholder="Tu nombre"/>
+            <input id="inp-nombre"   class="field-input" type="text" placeholder="Tu nombre"/>
           </div>
           <div>
             <label class="field-label">Teléfono / WhatsApp</label>
-            <input class="field-input" type="tel" placeholder="+34 600 000 000"/>
+            <input id="inp-tel"      class="field-input" type="tel" placeholder="+34 600 000 000"/>
           </div>
           <div>
             <label class="field-label">Producto</label>
-            <select class="field-select">
+            <select id="inp-producto" class="field-select">
               <option value="">Selecciona un producto...</option>
               <option>Pan de masa madre</option>
               <option>Baguette francesa</option>
@@ -475,14 +511,15 @@ footer {
           </div>
           <div>
             <label class="field-label">Cantidad y detalles</label>
-            <input class="field-input" type="text" placeholder="Ej: 2 panes de masa madre, 6 croissants..."/>
+            <input id="inp-cantidad" class="field-input" type="text" placeholder="Ej: 2 panes de masa madre, 6 croissants..."/>
           </div>
           <div>
             <label class="field-label">Día de recogida</label>
-            <input class="field-input" type="date"/>
+            <input id="inp-fecha"    class="field-input" type="date"/>
           </div>
-          <button class="btn-primary" style="margin-top:8px;justify-content:center">
-            <span class="material-symbols-outlined">send</span>Enviar pedido
+          <div id="form-err" style="font-size:12px;color:#f97316;min-height:16px"></div>
+          <button class="btn-primary" style="margin-top:4px;justify-content:center" onclick="submitPedido()">
+            <span class="material-symbols-outlined">send</span>Enviar pedido por WhatsApp
           </button>
           <p style="font-size:12px;color:var(--muted);line-height:1.6">
             Te confirmaremos el pedido por WhatsApp. Pago en tienda al recoger.
@@ -570,7 +607,7 @@ footer {
       <div class="contacto-card">
         <span class="contacto-card-icon">📱</span>
         <div class="contacto-card-title">WhatsApp / Teléfono</div>
-        <div class="contacto-card-val">+34 600 000 000<br/><a href="#" style="color:var(--gold);font-size:13px">Escribir por WhatsApp →</a></div>
+        <div class="contacto-card-val">+34 600 000 000<br/><a href="https://wa.me/34600000000" target="_blank" style="color:var(--gold);font-size:13px">Escribir por WhatsApp →</a></div>
       </div>
       <div class="contacto-card">
         <span class="contacto-card-icon">📧</span>
@@ -599,5 +636,62 @@ footer {
   <div class="footer-copy">© 2026 La Tahona · Hecho con ❤️ por Diskontrol</div>
 </footer>
 
+<script>
+const WA_NUMBER = "34600000000"; // ← sustituir por el número real del cliente
+
+// ── Hamburger ──
+function toggleMenu() {
+  document.getElementById("burger").classList.toggle("open");
+  document.getElementById("nav-mobile").classList.toggle("open");
+}
+
+// ── Formulario → WhatsApp ──
+function submitPedido() {
+  const nombre   = document.getElementById("inp-nombre")?.value.trim();
+  const tel      = document.getElementById("inp-tel")?.value.trim();
+  const producto = document.getElementById("inp-producto")?.value;
+  const cantidad = document.getElementById("inp-cantidad")?.value.trim();
+  const fecha    = document.getElementById("inp-fecha")?.value;
+  const err      = document.getElementById("form-err");
+
+  if (!nombre || !tel || !producto || !cantidad || !fecha) {
+    err.textContent = "Por favor, rellena todos los campos antes de enviar.";
+    return;
+  }
+  err.textContent = "";
+
+  const fechaFmt = new Date(fecha + "T12:00:00").toLocaleDateString("es-ES", { weekday:"long", day:"numeric", month:"long" });
+  const msg = `Hola, quiero hacer un pedido en La Tahona 🍞\n\n👤 Nombre: ${nombre}\n📱 Teléfono: ${tel}\n🛒 Producto: ${producto}\n📦 Cantidad/detalles: ${cantidad}\n📅 Recogida: ${fechaFmt}\n\nGracias!`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  showToast("¡Abriendo WhatsApp con tu pedido! ✓");
+}
+
+function showToast(msg) {
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(() => t.classList.remove("show"), 3500);
+}
+
+// ── Fecha mínima = mañana ──
+(function() {
+  const el = document.getElementById("inp-fecha");
+  if (!el) return;
+  const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate() + 1);
+  el.min = tomorrow.toISOString().slice(0, 10);
+})();
+
+// ── Scroll reveal ──
+(function() {
+  const targets = document.querySelectorAll(
+    "section, .producto-card, .paso-card, .nosotros-feat, .contacto-card"
+  );
+  targets.forEach(el => el.classList.add("reveal"));
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("visible"); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  targets.forEach(el => obs.observe(el));
+})();
+</script>
 </body>
 </html>
